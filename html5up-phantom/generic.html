@@ -51,11 +51,26 @@
 					<div id="main">
 						<div class="inner">
 							<h1 id="assignment-title">Assignment 1</h1>
-							<div id="assignment-chart" style="max-width: 2600px; width: 100%; margin: 1.5rem auto 2rem; transform: scale(1.25); transform-origin: top center;"></div>
-							<div id="secondary-chart" style="max-width: 1200px; width: 100%; margin: 2rem auto 2rem;"></div>
-							<p>Donec eget ex magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet dolor mattis sagittis. Praesent rutrum sem diam, vitae egestas enim auctor sit amet. Pellentesque leo mauris, consectetur id ipsum sit amet, fergiat. Pellentesque in mi eu massa lacinia malesuada et a elit. Donec urna ex, lacinia in purus ac, pretium pulvinar mauris. Curabitur sapien risus, commodo eget turpis at, elementum convallis elit. Pellentesque enim turpis, hendrerit tristique.</p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dapibus rutrum facilisis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam tristique libero eu nibh porttitor fermentum. Nullam venenatis erat id vehicula viverra. Nunc ultrices eros ut ultricies condimentum. Mauris risus lacus, blandit sit amet venenatis non, bibendum vitae dolor. Nunc lorem mauris, fringilla in aliquam at, euismod in lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In non lorem sit amet elit placerat maximus. Pellentesque aliquam maximus risus, vel venenatis mauris vehicula hendrerit.</p>
-							<p>Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet dolor mattis sagittis. Praesent rutrum sem diam, vitae egestas enim auctor sit amet. Pellentesque leo mauris, consectetur id ipsum sit amet, fersapien risus, commodo eget turpis at, elementum convallis elit. Pellentesque enim turpis, hendrerit tristique lorem ipsum dolor.</p>
+							<h2 style="text-align: center;">Connecticut EV Registrations</h2>
+							<div id="assignment-chart" style="display: flex; justify-content: center; max-width: 2600px; width: 100%; margin: 1.5rem auto 2rem; transform: scale(1.25); transform-origin: top center;"></div>
+							<br />
+							<br />
+							<p style="text-align: justify; color: #444;">This data is from Data.gov and has EV registration information from the State of Connecticut. This graph shows different vehicle types on the Y axis and the number of vehicles on the X axis. I think that this graph is a simple way of seeing the different types of EV and how popular they are.</p>
+							<h2 style="text-align: center;">EV Vehicles by Color in CT</h2>
+							<div id="assignment-chart-copy" style="display: flex; justify-content: center; max-width: none; width: calc(100% + 4rem); margin: 1.5rem -2rem 2rem; transform: scale(1.25); transform-origin: top center;"></div>
+							<br />
+							<br />
+							<p style="text-align: justify; color: #444;">This data shows how vehicle color is related to the number of registered Electric Vehicles in CT. I like how easy it is to read the data and how the green color makes the viewer think of Eco-friendly products.</p>
+							<h2 style="text-align: center;">Connecticut EV per Model Year</h2>
+							<div id="assignment-chart-copy-two" style="display: flex; justify-content: center; max-width: none; width: calc(100% + 4rem); margin: 1.5rem -2rem 2rem; transform: scale(1.25); transform-origin: top center;"></div>
+							<br />
+							<br />
+							<p style="text-align: justify; color: #444;">This data shows the how many EV vehicles are registered in CT by model year. I decreased the size of the labels on each bar to make them easier to read. I like this graph because it is easy to understand and has a vibrant color.</p>
+							<h2 style="text-align: center;">Connecticut EV Per Vehicle Category</h2>
+							<div id="assignment-chart-copy-three" style="display: flex; justify-content: center; max-width: none; width: calc(100% + 4rem); margin: 1.5rem -2rem 2rem; transform: scale(1.25); transform-origin: top center;"></div>
+							<br />
+							<br />
+							<p style="text-align: justify; color: #444;">This graph shows the number of vehicles by category. Unfortunately, the category descriptions are long. I made it easier to read by using different colors for each bar.</p>
 						</div>
 					</div>
 
@@ -148,7 +163,7 @@
 									"description": "Bar chart with text labels",
 									"data": { "values": values },
 									"encoding": {
-										"y": { "field": "a", "type": "nominal", "axis": { "title": "Vehicle Type" } },
+										"y": { "field": "a", "type": "nominal", "axis": { "title": "Vehicle Type" }, "sort": "-x" },
 										"x": { "field": "b", "type": "quantitative", "axis": { "title": "Number of Vehicles" }, "scale": { "domain": [0, Math.max(50, maxValue * 1.25)] } }
 									},
 									"layer": [{
@@ -165,52 +180,128 @@
 										}
 									}]
 								};
+								const colorCounts = {};
+								(parsed.data || []).forEach(row => {
+									const primaryColor = (row['Primary Color'] || '').trim();
+									if (primaryColor) {
+										colorCounts[primaryColor] = (colorCounts[primaryColor] || 0) + 1;
+									}
+								});
+								const secondValues = Object.entries(colorCounts)
+									.map(([primaryColor, vehicleCount]) => ({
+										primaryColor,
+										vehicleCount
+									}))
+									.sort((x, y) => y.vehicleCount - x.vehicleCount);
+								const secondSpec = {
+									"$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+									"description": "Number of vehicles by primary color",
+									"data": { "values": secondValues },
+									"layer": [{
+										"mark": { "type": "bar", "color": "#2e8b57" }
+									}, {
+										"mark": {
+											"type": "text",
+											"dy": -8,
+											"color": "#2e8b57"
+										},
+										"encoding": {
+											"text": { "field": "vehicleCount", "type": "quantitative" }
+										}
+									}],
+									"encoding": {
+										"x": { "field": "primaryColor", "type": "nominal", "axis": { "title": "Primary Color", "labelAngle": -45 }, "scale": { "padding": 0.6 }, "sort": "-y" },
+										"y": { "field": "vehicleCount", "type": "quantitative", "axis": { "title": "Number of Vehicles" } }
+									}
+								};
 
 								const chartEl = document.getElementById('assignment-chart');
 								if (chartEl) {
 									vegaEmbed(chartEl, spec, { renderer: 'svg' }).catch(console.error);
 								}
 
-								const secondSpec = {
+								const chartCopyEl = document.getElementById('assignment-chart-copy');
+								if (chartCopyEl) {
+									vegaEmbed(chartCopyEl, secondSpec, { renderer: 'svg' }).catch(console.error);
+								}
+
+								const yearCounts = {};
+								(parsed.data || []).forEach(row => {
+									const vehicleYear = Number(String(row['Vehicle Year'] || '').replace(/,/g, ''));
+									if (Number.isFinite(vehicleYear)) {
+										yearCounts[vehicleYear] = (yearCounts[vehicleYear] || 0) + 1;
+									}
+								});
+								const thirdValues = Object.entries(yearCounts)
+									.map(([vehicleYear, vehicleCount]) => ({
+										vehicleYear: Number(vehicleYear),
+										vehicleCount
+									}))
+									.sort((x, y) => x.vehicleYear - y.vehicleYear);
+								const thirdSpec = {
 									"$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-									"data": {
-										"url": "https://vega.github.io/vega-datasets/data/flights-2k.json",
-										"format": { "parse": { "date": "date" } }
-									},
-									"transform": [{ "calculate": "hours(datum.date)", "as": "time" }],
-									"repeat": { "column": ["distance", "delay", "time"] },
-									"spec": {
-										"layer": [{
-											"params": [{
-												"name": "brush",
-												"select": { "type": "interval", "encodings": ["x"] }
-											}],
-											"mark": "bar",
-											"encoding": {
-												"x": {
-													"field": { "repeat": "column" },
-													"bin": { "maxbins": 20 }
-												},
-												"y": { "aggregate": "count" },
-												"color": { "value": "#ddd" }
-											}
-										}, {
-											"transform": [{ "filter": { "param": "brush" } }],
-											"mark": "bar",
-											"encoding": {
-												"x": {
-													"field": { "repeat": "column" },
-													"bin": { "maxbins": 20 }
-												},
-												"y": { "aggregate": "count" }
-											}
-										}]
+									"description": "Number of vehicles by vehicle year",
+									"data": { "values": thirdValues },
+									"layer": [{
+										"mark": { "type": "bar", "color": "#e67e22" }
+									}, {
+										"mark": { "type": "text", "dy": -8, "fontSize": 9, "color": "#e67e22" },
+										"encoding": {
+											"text": { "field": "vehicleCount", "type": "quantitative" }
+										}
+									}],
+									"encoding": {
+										"x": { "field": "vehicleYear", "type": "ordinal", "axis": { "title": "Vehicle Year" }, "scale": { "padding": 0.6 } },
+										"y": { "field": "vehicleCount", "type": "quantitative", "axis": { "title": "Number of Vehicles" } }
 									}
 								};
+								const chartCopyTwoEl = document.getElementById('assignment-chart-copy-two');
+								if (chartCopyTwoEl) {
+									vegaEmbed(chartCopyTwoEl, thirdSpec, { renderer: 'svg' }).catch(console.error);
+								}
 
-								const secondaryChartEl = document.getElementById('secondary-chart');
-								if (secondaryChartEl) {
-									vegaEmbed(secondaryChartEl, secondSpec, { renderer: 'svg' }).catch(console.error);
+								const categoryCounts = {};
+								(parsed.data || []).forEach(row => {
+									const vehicleCategory = (row['Vehicle Category'] || '').trim();
+									if (vehicleCategory) {
+										categoryCounts[vehicleCategory] = (categoryCounts[vehicleCategory] || 0) + 1;
+									}
+								});
+								const fourthValues = Object.entries(categoryCounts)
+									.map(([vehicleCategory, vehicleCount]) => ({
+										vehicleCategory,
+										vehicleCount
+									}))
+									.sort((x, y) => y.vehicleCount - x.vehicleCount);
+								const fourthSpec = {
+									"$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+									"description": "Number of vehicles by vehicle category",
+									"data": { "values": fourthValues },
+									"layer": [{
+										"mark": { "type": "bar", "color": "#e67e22" }
+									}, {
+										"mark": { "type": "text", "dy": -8, "fontSize": 9, "color": "#e67e22" },
+										"encoding": {
+											"text": { "field": "vehicleCount", "type": "quantitative" }
+										}
+									}, {
+										"mark": { "type": "text", "angle": -45, "align": "right", "baseline": "top", "dy": 18, "fontSize": 9, "clip": false },
+										"encoding": {
+											"x": { "field": "vehicleCategory", "type": "nominal" },
+											"y": { "datum": 0 },
+											"text": { "field": "vehicleCategory", "type": "nominal" },
+											"color": { "field": "vehicleCategory", "type": "nominal", "scale": { "scheme": "category20" }, "legend": null }
+										}
+									}],
+									"encoding": {
+										"x": { "field": "vehicleCategory", "type": "nominal", "axis": { "title": "Vehicle Category", "labels": false, "labelAngle": -45 }, "scale": { "padding": 0.6 }, "sort": "-y" },
+										"y": { "field": "vehicleCount", "type": "quantitative", "axis": { "title": "Number of Vehicles" } },
+										"color": { "field": "vehicleCategory", "type": "nominal", "scale": { "scheme": "category20" }, "legend": null }
+									}
+								};
+								const chartCopyThreeEl = document.getElementById('assignment-chart-copy-three');
+								if (chartCopyThreeEl) {
+									vegaEmbed(chartCopyThreeEl, fourthSpec, { renderer: 'svg' }).catch(console.error);
 								}
 							})
 							.catch(error => {
