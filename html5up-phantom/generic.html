@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Generic - Phantom by HTML5 UP</title>
+		<title>Assignment 1</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -50,8 +50,9 @@
 				<!-- Main -->
 					<div id="main">
 						<div class="inner">
-							<h1>Generic Page</h1>
-							<span class="image main"><img src="images/pic13.jpg" alt="" /></span>
+							<h1 id="assignment-title">Assignment 1</h1>
+							<div id="assignment-chart" style="max-width: 2600px; width: 100%; margin: 1.5rem auto 2rem; transform: scale(1.25); transform-origin: top center;"></div>
+							<div id="secondary-chart" style="max-width: 1200px; width: 100%; margin: 2rem auto 2rem;"></div>
 							<p>Donec eget ex magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet dolor mattis sagittis. Praesent rutrum sem diam, vitae egestas enim auctor sit amet. Pellentesque leo mauris, consectetur id ipsum sit amet, fergiat. Pellentesque in mi eu massa lacinia malesuada et a elit. Donec urna ex, lacinia in purus ac, pretium pulvinar mauris. Curabitur sapien risus, commodo eget turpis at, elementum convallis elit. Pellentesque enim turpis, hendrerit tristique.</p>
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dapibus rutrum facilisis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam tristique libero eu nibh porttitor fermentum. Nullam venenatis erat id vehicula viverra. Nunc ultrices eros ut ultricies condimentum. Mauris risus lacus, blandit sit amet venenatis non, bibendum vitae dolor. Nunc lorem mauris, fringilla in aliquam at, euismod in lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In non lorem sit amet elit placerat maximus. Pellentesque aliquam maximus risus, vel venenatis mauris vehicula hendrerit.</p>
 							<p>Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet dolor mattis sagittis. Praesent rutrum sem diam, vitae egestas enim auctor sit amet. Pellentesque leo mauris, consectetur id ipsum sit amet, fersapien risus, commodo eget turpis at, elementum convallis elit. Pellentesque enim turpis, hendrerit tristique lorem ipsum dolor.</p>
@@ -102,6 +103,122 @@
 			</div>
 
 		<!-- Scripts -->
+			<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+			<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+			<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+			<script>
+				(function () {
+					const params = new URLSearchParams(window.location.search);
+					const assignment = params.get('assignment');
+					if (assignment) {
+						const title = 'Assignment ' + assignment;
+						document.title = title;
+						const heading = document.getElementById('assignment-title');
+						if (heading) {
+							heading.textContent = title;
+						}
+					}
+
+					if (assignment === '1' && window.vegaEmbed && window.Papa) {
+						fetch('State of Connecticut EV.csv')
+							.then(response => response.text())
+							.then(csvText => {
+								const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
+								const counts = {};
+
+								(parsed.data || []).forEach(row => {
+									const vehicleType = (row['Vehicle Type'] || '').trim();
+									if (vehicleType) {
+										counts[vehicleType] = (counts[vehicleType] || 0) + 1;
+									}
+								});
+
+								const values = Object.entries(counts)
+									.map(([vehicleType, count]) => ({
+										a: String(vehicleType),
+										b: Number(count)
+									}))
+									.filter(d => d.a && Number.isFinite(d.b))
+									.sort((x, y) => y.b - x.b);
+
+								const maxValue = Math.max(...values.map(v => v.b), 1);
+								const spec = {
+									"$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+									"description": "Bar chart with text labels",
+									"data": { "values": values },
+									"encoding": {
+										"y": { "field": "a", "type": "nominal", "axis": { "title": "Vehicle Type" } },
+										"x": { "field": "b", "type": "quantitative", "axis": { "title": "Number of Vehicles" }, "scale": { "domain": [0, Math.max(50, maxValue * 1.25)] } }
+									},
+									"layer": [{
+										"mark": "bar"
+									}, {
+										"mark": {
+											"type": "text",
+											"align": "left",
+											"baseline": "middle",
+											"dx": 3
+										},
+										"encoding": {
+											"text": { "field": "b", "type": "quantitative" }
+										}
+									}]
+								};
+
+								const chartEl = document.getElementById('assignment-chart');
+								if (chartEl) {
+									vegaEmbed(chartEl, spec, { renderer: 'svg' }).catch(console.error);
+								}
+
+								const secondSpec = {
+									"$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+									"data": {
+										"url": "https://vega.github.io/vega-datasets/data/flights-2k.json",
+										"format": { "parse": { "date": "date" } }
+									},
+									"transform": [{ "calculate": "hours(datum.date)", "as": "time" }],
+									"repeat": { "column": ["distance", "delay", "time"] },
+									"spec": {
+										"layer": [{
+											"params": [{
+												"name": "brush",
+												"select": { "type": "interval", "encodings": ["x"] }
+											}],
+											"mark": "bar",
+											"encoding": {
+												"x": {
+													"field": { "repeat": "column" },
+													"bin": { "maxbins": 20 }
+												},
+												"y": { "aggregate": "count" },
+												"color": { "value": "#ddd" }
+											}
+										}, {
+											"transform": [{ "filter": { "param": "brush" } }],
+											"mark": "bar",
+											"encoding": {
+												"x": {
+													"field": { "repeat": "column" },
+													"bin": { "maxbins": 20 }
+												},
+												"y": { "aggregate": "count" }
+											}
+										}]
+									}
+								};
+
+								const secondaryChartEl = document.getElementById('secondary-chart');
+								if (secondaryChartEl) {
+									vegaEmbed(secondaryChartEl, secondSpec, { renderer: 'svg' }).catch(console.error);
+								}
+							})
+							.catch(error => {
+								console.error('Failed to load CSV data for graph:', error);
+							});
+					}
+				})();
+			</script>
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
 			<script src="assets/js/breakpoints.min.js"></script>
