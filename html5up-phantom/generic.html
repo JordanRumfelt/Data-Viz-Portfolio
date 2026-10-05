@@ -135,6 +135,77 @@
 						}
 					}
 
+					if (assignment === '2' && window.vegaEmbed) {
+						const inner = document.querySelector('#main .inner');
+						if (inner) {
+							inner.innerHTML = `
+								<h1 id="assignment-title">Assignment 2</h1>
+								<h2 style="text-align: left; margin-bottom: 0.25rem;">Bad One</h2>
+								<h2 style="text-align: center; margin-top: 0; margin-bottom: 1rem;">Headstone Cost</h2>
+								<img src="images/bad one.jpg" alt="Bad chart example" style="display:block; max-width:900px; width:100%; margin: 0 auto 3in; border-radius: 8px;" />
+									<h2 style="text-align: left; margin-top: 0; margin-bottom: 0.25rem;">Improved One</h2>
+									<h2 style="text-align: center; margin-top: 0; margin-bottom: 0.25rem;">HEADSTONE COST</h2>
+								<div id="assignment-2-chart" style="display:flex; justify-content:center; width:100%; max-width:900px; height:520px; margin:0 auto 2rem;"></div>
+							`;
+
+							const chart = document.getElementById('assignment-2-chart');
+							if (chart) {
+								const extraSpec = {
+									"$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+									"description": "Headstone cost comparison chart.",
+									"width": 900,
+									"height": 520,
+									"data": {
+										"values": [
+											{"category": "Lawn-Level", "cost": 599},
+											{"category": "Bronze", "cost": 795},
+											{"category": "Bevel", "cost": 900},
+											{"category": "Slant", "cost": 1250},
+											{"category": "Upright", "cost": 1900}
+										]
+									},
+									"config": {
+										"view": {"stroke": "transparent"},
+										"axis": {
+											"grid": true,
+											"labelColor": "#3d3d3d",
+											"titleColor": "#3d3d3d",
+											"labelFontSize": 18,
+											"titleFontSize": 18,
+											"tickSize": 8
+										},
+										"background": "transparent",
+										"legend": {"labelFontSize": 16, "titleFontSize": 16}
+									},
+									"mark": {"type": "bar", "cornerRadiusTopRight": 6, "cornerRadiusBottomRight": 6},
+									"encoding": {
+										"x": {
+											"field": "category",
+											"type": "nominal",
+											"sort": ["Lawn-Level", "Bronze", "Bevel", "Slant", "Upright"],
+											"axis": {"title": null, "labelPadding": 12, "labelColor": "#3d3d3d", "labelFontSize": 18, "titleFontSize": 18, "labelAngle": 0}
+										},
+										"y": {
+											"field": "cost",
+											"type": "quantitative",
+											"axis": {"title": null, "tickCount": 5, "format": "$,.0f", "labelFontSize": 18, "titleFontSize": 18}
+										},
+										"color": {
+											"field": "category",
+											"type": "nominal",
+											"scale": {
+												"domain": ["Lawn-Level", "Bronze", "Bevel", "Slant", "Upright"],
+												"range": ["#59a14f", "#b68d5c", "#e15759", "#76b7b2", "#4e79a7"]
+											},
+											"legend": {"orient": "top", "title": null}
+										}
+									}
+								};
+								vegaEmbed(chart, extraSpec, { renderer: 'svg' }).catch(console.error);
+							}
+						}
+					}
+
 					if (assignment === '1' && window.vegaEmbed && window.Papa) {
 						fetch('State of Connecticut EV.csv')
 							.then(response => response.text())
