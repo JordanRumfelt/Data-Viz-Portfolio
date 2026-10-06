@@ -145,7 +145,8 @@
 								<img src="images/bad one.jpg" alt="Bad chart example" style="display:block; max-width:900px; width:100%; margin: 0 auto 3in; border-radius: 8px;" />
 									<h2 style="text-align: left; margin-top: 0; margin-bottom: 0.25rem;">Improved One</h2>
 									<h2 style="text-align: center; margin-top: 0; margin-bottom: 0.25rem;">HEADSTONE COST</h2>
-								<div id="assignment-2-chart" style="display:flex; justify-content:center; width:100%; max-width:900px; height:520px; margin:0 auto 2rem;"></div>
+								<div id="assignment-2-chart" style="display:flex; justify-content:center; width:100%; max-width:900px; height:520px; margin:0 auto 2in;"></div>
+								<p style="text-align: justify; color: #444; max-width: 900px; margin: 0 auto;">The original chart in my opinion should not be horizontal. The chart also does not start at zero, and all the bars are the same color. The bars on this chart also have a gradient fade which in this case does not make sense as there is a hard cap for the cost. When creating the new graph, I changed the scale to start at zero and capped it at $2000, the most expensive data point. I then added a title, legend, labels outside of the graph, changed the colors, and made the graph vertical. For any labels that included a color in the name I made the bar the same color and for the others I picked colors that would work well for people with different types of color blindness. I feel by making these changes it conveys the pricing and comparison between each of the different types of headstones. I thought that the information should be a bar graph and wouldn’t really work with other types.</p>
 							`;
 
 							const chart = document.getElementById('assignment-2-chart');
@@ -177,7 +178,10 @@
 										"background": "transparent",
 										"legend": {"labelFontSize": 16, "titleFontSize": 16}
 									},
-									"mark": {"type": "bar", "cornerRadiusTopRight": 6, "cornerRadiusBottomRight": 6},
+									"layer": [
+										{"mark": {"type": "bar", "cornerRadiusTopRight": 6, "cornerRadiusBottomRight": 6}},
+										{"mark": {"type": "text", "dy": 16, "baseline": "top", "fontSize": 16, "fontWeight": "bold"}, "encoding": {"text": {"field": "cost", "type": "quantitative", "format": "$,.0f"}, "color": {"value": "#ffffff"}}}
+									],
 									"encoding": {
 										"x": {
 											"field": "category",
