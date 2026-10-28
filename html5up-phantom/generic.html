@@ -135,6 +135,38 @@
 						}
 					}
 
+					if (assignment === '3') {
+						const header = document.getElementById('header');
+						const menu = document.getElementById('menu');
+						const main = document.querySelector('#main .inner');
+						const footer = document.getElementById('footer');
+
+						if (header) header.style.display = 'none';
+						if (menu) menu.style.display = 'none';
+						if (footer) footer.style.display = 'none';
+						if (main) {
+							main.innerHTML = `
+								<h1 id="assignment-title">Assignment 3</h1>
+								<h2 style="text-align: center; text-transform: none; letter-spacing: normal; margin-bottom: 0.5rem;">Cost of Wildlife Collisions per Year</h2>
+								<iframe
+									title="FAA Strikes and Cost graph"
+									src="https://public.tableau.com/views/FAAStrikesandCost/Sheet1?:showVizHome=no&:embed=true&:toolbar=no"
+									style="display: block; width: 100%; height: 800px; border: 0;"
+									allowfullscreen>
+								</iframe>
+								<h2 style="text-align: center; text-transform: none; letter-spacing: normal; margin: 2rem 0 0.5rem;">Cost of Wildlife Collisions per Year</h2>
+								<iframe
+									title="FAA Strikes and Cost second graph"
+									src="https://public.tableau.com/views/FAAStrikesandCost/Sheet12?:showVizHome=no&:embed=true&:toolbar=no"
+									style="display: block; width: 100%; height: 800px; border: 0; margin-bottom: 3rem;"
+									allowfullscreen>
+								</iframe>
+								<p style="color: #222;">These graphs show the cost per year associated with wildlife strikes on aircraft. The first graph shows data for all the available years, and that cost of damage goes up and down overtime with significant increase in collisions. The second graph is misleading because it suggests that the costs have decreased. It misleads you into thinking that there is a trend when there is not.</p>
+								<p style="color: #222;">I do believe that it is easy to mislead people with data visualizations. Readers should beware of visualizations that show only snippets of the data, use colors that give a positive or negative reaction, and don’t use a consistent scale.</p>
+							`;
+						}
+					}
+
 					if (assignment === '2' && window.vegaEmbed) {
 						const inner = document.querySelector('#main .inner');
 						if (inner) {
