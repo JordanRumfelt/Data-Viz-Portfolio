@@ -247,6 +247,14 @@ input, select, textarea {
 
 	}
 
+	.datawrapper-tutorial > h2 {
+		font-size: 1.5em;
+	}
+
+	.datawrapper-tutorial > h3 {
+		font-size: 1.25em;
+	}
+
 	sub {
 		font-size: 0.8em;
 		position: relative;

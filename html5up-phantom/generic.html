@@ -22,30 +22,11 @@
 
 							<!-- Logo -->
 								<a href="index.html" class="logo">
-									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Phantom</span>
+									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">HOME</span>
 								</a>
-
-							<!-- Nav -->
-								<nav>
-									<ul>
-										<li><a href="#menu">Menu</a></li>
-									</ul>
-								</nav>
 
 						</div>
 					</header>
-
-				<!-- Menu -->
-					<nav id="menu">
-						<h2>Menu</h2>
-						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li><a href="generic.html">Ipsum veroeros</a></li>
-							<li><a href="generic.html">Tempus etiam</a></li>
-							<li><a href="generic.html">Consequat dolor</a></li>
-							<li><a href="elements.html">Elements</a></li>
-						</ul>
-					</nav>
 
 				<!-- Main -->
 					<div id="main">
@@ -77,38 +58,6 @@
 				<!-- Footer -->
 					<footer id="footer">
 						<div class="inner">
-							<section>
-								<h2>Get in touch</h2>
-								<form method="post" action="#">
-									<div class="fields">
-										<div class="field half">
-											<input type="text" name="name" id="name" placeholder="Name" />
-										</div>
-										<div class="field half">
-											<input type="email" name="email" id="email" placeholder="Email" />
-										</div>
-										<div class="field">
-											<textarea name="message" id="message" placeholder="Message"></textarea>
-										</div>
-									</div>
-									<ul class="actions">
-										<li><input type="submit" value="Send" class="primary" /></li>
-									</ul>
-								</form>
-							</section>
-							<section>
-								<h2>Follow</h2>
-								<ul class="icons">
-									<li><a href="#" class="icon brands style2 fa-twitter"><span class="label">Twitter</span></a></li>
-									<li><a href="#" class="icon brands style2 fa-facebook-f"><span class="label">Facebook</span></a></li>
-									<li><a href="#" class="icon brands style2 fa-instagram"><span class="label">Instagram</span></a></li>
-									<li><a href="#" class="icon brands style2 fa-dribbble"><span class="label">Dribbble</span></a></li>
-									<li><a href="#" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>
-									<li><a href="#" class="icon brands style2 fa-500px"><span class="label">500px</span></a></li>
-									<li><a href="#" class="icon solid style2 fa-phone"><span class="label">Phone</span></a></li>
-									<li><a href="#" class="icon solid style2 fa-envelope"><span class="label">Email</span></a></li>
-								</ul>
-							</section>
 							<ul class="copyright">
 								<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 							</ul>
@@ -135,15 +84,85 @@
 						}
 					}
 
+					if (assignment === '4' || assignment === '5') {
+						const main = document.querySelector('#main .inner');
+						if (main) {
+							main.querySelectorAll(':scope > h2, :scope > p').forEach(element => element.remove());
+						}
+					}
+
+					if (assignment === '4') {
+						const main = document.querySelector('#main .inner');
+						if (main) {
+							main.querySelectorAll(':scope > div[id^="assignment-chart"], :scope > br').forEach(element => element.remove());
+							main.insertAdjacentHTML('beforeend', `
+								<section class="datawrapper-tutorial" aria-labelledby="datawrapper-tutorial-title">
+									<h2 id="datawrapper-tutorial-title">Datawrapper Tutorial</h2>
+									<p>Datawrapper is a free, easy-to-use data visualization tool that runs in a web browser. It lets you upload data in many formats and choose from a variety of graphs and charts.</p>
+
+									<h3>Existing Tutorial</h3>
+									<p><a href="https://www.datawrapper.de/docs/how-to-create-your-first-datawrapper-chart" target="_blank" rel="noopener">How to create your first chart | Datawrapper Docs</a></p>
+									<p>This is the tutorial supplied by Datawrapper. I used my own data and a different type of chart. This tutorial provides more detail than the version they provide.</p>
+
+									<h3>Step-by-Step Guide</h3>
+									<p>Start with the <a href="https://www.datawrapper.de/" target="_blank" rel="noopener">Datawrapper chart, map, and table creator</a>.</p>
+									<figure><img src="images/datawrapper/step-01.png" alt="Datawrapper homepage" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>On the page shown above, click the “Sign In” button in the top-right corner.</p>
+									<p>The following page should appear:</p>
+									<figure><img src="images/datawrapper/step-02.png" alt="Datawrapper sign-in and account creation options" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>Choose one of the options to create a Datawrapper account. You will need an account to publish your results. You can use Google or any of the other options provided.</p>
+									<p>After creating an account, the following screen should appear:</p>
+									<figure><img src="images/datawrapper/step-03.png" alt="Datawrapper dashboard after creating an account" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>Click the “Create visualization” button. This brings up a list of visualization types.</p>
+									<figure><img src="images/datawrapper/step-04.png" alt="Datawrapper visualization type chooser" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>Select the type of chart you would like to create. For this tutorial, I used the “Chart” option. The next screen should appear:</p>
+									<figure><img src="images/datawrapper/step-05.png" alt="Datawrapper chart creation screen" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>This page lets you upload your own data or use a sample dataset. The example uses an XLS spreadsheet from <a href="https://ourworldindata.org/grapher/energy-mix?source=total&amp;metric=per_capita" target="_blank" rel="noopener">Our World in Data</a>. Choose whichever upload option you prefer.</p>
+									<p>Click “XLS/CSV upload” to open the file explorer and choose a file. The screenshot below shows the spreadsheet being selected.</p>
+									<figure><img src="images/datawrapper/step-06.png" alt="Selecting an XLS or CSV file to upload" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>Double-click your preferred file to upload it. The uploaded data should then appear:</p>
+									<figure><img src="images/datawrapper/step-07.png" alt="Uploaded spreadsheet data in Datawrapper" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>This page lets you review the uploaded data. You can swap rows and columns if needed. Clicking a column header (A, B, and so on) lets you hide that column from the visualization.</p>
+									<p>When the data is ready, click “Proceed” at the bottom left. The next screen should appear:</p>
+									<figure><img src="images/datawrapper/step-08.png" alt="Datawrapper data preparation screen" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>This is the Visualize screen. Choose from the available chart types and try them until you find one that works for your data. For this example, I chose a dot plot:</p>
+									<figure><img src="images/datawrapper/step-09.png" alt="Choosing a dot plot in Datawrapper" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>For more control over the presentation, click the “Refine” tab above the chart options:</p>
+									<figure><img src="images/datawrapper/step-10.png" alt="Datawrapper Refine tab options" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>The options vary depending on the chart type. This section includes customization and appearance settings. For this example, I kept most of the automatic choices and changed the color.</p>
+									<figure><img src="images/datawrapper/step-11.png" alt="Changing chart colors in Datawrapper" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>To change the color, go to the “Appearance” section and click the colored square with the dropdown arrow. A popup provides options for choosing a color. For this example, I chose an orange shade.</p>
+									<p>When you are done customizing, click the “Annotate” tab next to “Refine”:</p>
+									<figure><img src="images/datawrapper/step-12.png" alt="Datawrapper Annotate tab" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>The Annotate screen lets you add information such as a title and description. You can also highlight specific data elements, such as one or more country names.</p>
+									<p>When your annotations are ready, click “Layout”:</p>
+									<figure><img src="images/datawrapper/step-13.png" alt="Datawrapper Layout tab" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>Layout options include dark mode, when supported by the viewer’s device, and footer options such as allowing viewers to save the finished visualization as an image.</p>
+									<p>When you are satisfied with the settings, click “Proceed” to continue:</p>
+									<figure><img src="images/datawrapper/step-14.png" alt="Datawrapper publish screen" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>To publish the visualization, click “Publish Now.” After publishing, the following screen should appear:</p>
+									<figure><img src="images/datawrapper/step-15.png" alt="Datawrapper sharing links after publishing" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>This screen provides links for sharing your visualization. It is now public and viewable. The following steps show how to find it again.</p>
+									<figure><img src="images/datawrapper/step-16.png" alt="Datawrapper dashboard and archive navigation" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>At the top of the page, choose “Dashboard” or “Archive.” In this example, I chose “Archive.”</p>
+									<figure><img src="images/datawrapper/step-17.png" alt="Datawrapper archive of saved visualizations" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>The archive shows your visualizations. To delete one, hover over it and click the small box at the top right.</p>
+									<figure><img src="images/datawrapper/step-18.png" alt="Options for a saved Datawrapper visualization" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>You can also click a visualization to open its options:</p>
+									<figure><img src="images/datawrapper/step-19.png" alt="Options shown for an opened Datawrapper visualization" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>To view the visualization as someone who received a shared link would, click “SHARING URL.” This opens the published visualization.</p>
+									<figure><img src="images/datawrapper/step-20.png" alt="Sharing URL for a published Datawrapper visualization" loading="lazy" style="display:block; max-width:100%; height:auto; margin:1.5rem auto; border-radius:8px;" /></figure>
+									<p>Example visualization: <a href="https://www.datawrapper.de/_/CkVsz/" target="_blank" rel="noopener">Energy Use Per Person by Country, 2025</a>.</p>
+								</section>
+							`);
+						}
+					}
+
 					if (assignment === '3') {
-						const header = document.getElementById('header');
 						const menu = document.getElementById('menu');
 						const main = document.querySelector('#main .inner');
-						const footer = document.getElementById('footer');
 
-						if (header) header.style.display = 'none';
 						if (menu) menu.style.display = 'none';
-						if (footer) footer.style.display = 'none';
 						if (main) {
 							main.innerHTML = `
 								<h1 id="assignment-title">Assignment 3</h1>
